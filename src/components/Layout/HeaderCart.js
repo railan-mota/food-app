@@ -1,16 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import CartContext from "../../store/cart-context";
+import { useSelector } from "react-redux";
+
 import Button from "../UI/Button";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 const HeaderCart = (props) => {
-  const ctx = useContext(CartContext);
+  const totalAmount = useSelector((state) => state.cart.totalAmount);
 
   const classes = "px-3 py-1 bg-[#61AB0B] rounded-full shadow-lg";
-
   const [enteredClasses, setClasses] = useState(classes);
 
   useEffect(() => {
@@ -18,7 +17,7 @@ const HeaderCart = (props) => {
     setTimeout(() => {
       setClasses(classes);
     }, 500);
-  }, [ctx.totalAmount]);
+  }, [totalAmount]);
 
   return (
     <Button
@@ -27,7 +26,7 @@ const HeaderCart = (props) => {
     >
       <FontAwesomeIcon icon={faCartShopping} className="fa-2x" />
       <p>Your Cart</p>
-      <div className={enteredClasses}>{ctx.totalAmount}</div>
+      <div className={enteredClasses}>{totalAmount}</div>
     </Button>
   );
 };

@@ -1,42 +1,43 @@
-import React, { useContext } from "react";
+import React from "react";
 import Button from "../UI/Button";
+
+import { useSelector } from "react-redux";
 
 import Modal from "../UI/Modal";
 import CartHeader from "./CartHeader";
 import CartItem from "./CartItem";
-import CartContext from "../../store/cart-context";
 import CartSummary from "./CartSummary";
 
 const Cart = (props) => {
-  const ctx = useContext(CartContext);
+  const items = useSelector(state => state.cart.items);
 
-  const cartItems = ctx.items.map((item) => {
-    return <CartItem item={item} />;
+  const cartItems = items.map((item) => {
+    return <CartItem item={item} key={item.key}/>;
   });
 
   const cartAmount =
-    ctx.items.length === 1
-      ? `${ctx.items.length} Item`
-      : `${ctx.items.length} Items`;
+    items.length === 1
+      ? `${items.length} Item`
+      : `${items.length} Items`;
 
   let itemPrice = 0;
   let totalPrice = 0;
 
-  if (ctx.items.length !== 0) {
-    itemPrice = ctx.items.map((item) => item.unitPrice * item.amount);
+  if (items.length !== 0) {
+    itemPrice = items.map((item) => item.unitPrice * item.amount);
     totalPrice = itemPrice.reduce((a, b) => a + b);
   } else {
     itemPrice = 0;
     totalPrice = 0;
   }
 
-  let hasItens = ctx.items.length ? true : false;
+  let hasItens = items.length ? true : false;
 
   return (
     <Modal onClose={props.onClose}>
       <div className="lg:p-10 grid lg:grid-cols-6 ">
         <div className="lg:col-span-4 mb-4 lg:mr-4">
-          <CartHeader amount={ctx.items.length} />
+          <CartHeader amount={items.length} />
           <ul className="divide-y-2 lg:mb-8">{cartItems}</ul>
         </div>
         <CartSummary

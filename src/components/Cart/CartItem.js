@@ -8,7 +8,7 @@ const CartItem = (props) => {
         <span>{props.item.name}</span>
       </div>
       <div className=" md:col-span-1 col-span-2 flex items-center justify-center ">
-        <CartAmount id={props.item.key} amount={props.item.amount} />
+        <CartAmount id={props.item.key} amount={props.item.amount} item={props.item} />
       </div>
       <div className="p-4 text-center flex items-center justify-center">
         <span>${props.item.unitPrice.toFixed(2)}</span>

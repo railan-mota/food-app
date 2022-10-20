@@ -1,22 +1,27 @@
-import React, { useContext } from "react";
+import { useDispatch } from "react-redux";
+import { CartActions } from "../store/cart-slice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
-import CartContext from "../../store/cart-context";
 import Button from "../UI/Button";
 
 const CartAmount = (props) => {
-  const ctx = useContext(CartContext);
+  const dispatch = useDispatch();
 
   const addHandler = (event) => {
     event.preventDefault();
-    ctx.addAmount(props.id);
+    dispatch(
+      CartActions.increase({
+        item: props.item,
+        amount: 1,
+      })
+    );
   };
 
   const removeHandler = (event) => {
     event.preventDefault();
-    ctx.removeAmount(props.id);
+    dispatch(CartActions.decrease(props.item.key));
   };
 
   const blurHandler = (event) => {
@@ -35,7 +40,7 @@ const CartAmount = (props) => {
         <input
           type="number"
           step="1"
-          value={props.amount}
+          value={props.item.amount}
           placeholder="1"
           className="w-10  py-1 text-center hover:cursor-default"
           onFocus={blurHandler}

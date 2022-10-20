@@ -24,6 +24,7 @@ const MealsAvaliable = () => {
         meals.push({
           key: key,
           name: data[key].name,
+          amount: 0,
           description: data[key].description,
           unitPrice: data[key].unitPrice,
         });

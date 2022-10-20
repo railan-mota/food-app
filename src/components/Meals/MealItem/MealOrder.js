@@ -1,13 +1,16 @@
-import React, { useContext, useRef } from "react";
-import CartContext from "../../../store/cart-context";
+import React, { useRef } from "react";
+
+import { useDispatch } from "react-redux";
+import { CartActions } from "../../store/cart-slice";
 
 import Button from "../../UI/Button";
 import MealAmount from "./MealAmount";
 
 const MealOrder = (props) => {
-  const ctx = useContext(CartContext);
-
+  const dispatch = useDispatch();
   const inputRef = useRef();
+
+  console.log('Fui renderizado')
 
   const removeValue = (event) => {
     event.preventDefault();
@@ -25,10 +28,18 @@ const MealOrder = (props) => {
 
   const addCartHandler = (event) => {
     event.preventDefault();
-    ctx.addItem({
+
+    dispatch(
+      CartActions.increase({
+        amount: +inputRef.current.value,
+        item: props.item,
+      })
+    );
+
+    /*  ctx.addItem({
       amount: +inputRef.current.value,
       item: props.item,
-    });
+    }); */
 
     inputRef.current.value = 1;
   };
